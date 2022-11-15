@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome user</title>
+</head>
+<body>
+
+<h1>Welcome </h1><h1 th:text="${session.user}"></h1>
+<a th:href="@{page-two}"><button>Gå til næste side</button></a>
+</body>
+</html>
