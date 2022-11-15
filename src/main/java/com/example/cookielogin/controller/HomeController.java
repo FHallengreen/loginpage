@@ -39,15 +39,6 @@ public class HomeController {
         } else return "redirect:/error";
     }
 
-    // TODO og nu kan du så i toppen af ALLE sider der require et login
-/*
-    starte med
-
-    does cookie exist? if not -> fuck off
-
-    next:
-    does user name and password exist in cookie? ok, check dem i databasen, er de rigtige? ja, giv dem siden, hvis nej, fuck off
-    */
     public boolean validateUser(HttpSession httpSession) {
         User user2 = userRepository.findUserByEmail((String) httpSession.getAttribute("username"));
         System.out.println(user2.getEmail() + " vs " + httpSession.getAttribute("username"));
