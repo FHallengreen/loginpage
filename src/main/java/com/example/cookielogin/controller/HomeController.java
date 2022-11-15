@@ -67,8 +67,14 @@ public class HomeController {
 
     @GetMapping("/page-two")
     public String pageTwo(HttpSession httpSession) {
-        httpSession.getAttribute("username");
-        return "page-two";
+        if (httpSession == null) {
+            return "redirect:/notloggedin";
+        } else if (validateUser(httpSession)) {
+            return "redirect:/error";
+        } else {
+            httpSession.getAttribute("username");
+            return "page-two";
+        }
     }
 
     @GetMapping("/cookieinvalidate")
