@@ -26,20 +26,17 @@ public class UserRepository {
 
         try {
             Connection conn = ConnectionManager.getConnection(db_url, uid, pwd);
-
             String queryCreate = "SELECT * FROM users WHERE email=?";
             PreparedStatement psts = conn.prepareStatement(queryCreate);
 
+            //indsæt name og price i prepared statement
             psts.setString(1, email);
+
+            //execute query
             ResultSet rs = psts.executeQuery();
-
             rs.next();
-            String password = rs.getString(3);
-
-            user.setEmail(email);
+            String password = rs.getString(2);
             user.setPassword(password);
-
-
             System.out.println(user);
 
         } catch (SQLException e) {
@@ -48,4 +45,5 @@ public class UserRepository {
         }
         return user;
     }
+
 }
