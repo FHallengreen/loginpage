@@ -34,15 +34,16 @@ public class UserRepository {
 
             //execute query
             ResultSet rs = psts.executeQuery();
-            rs.next();
+            while (rs.next()){
+//            rs.next();
             String password = rs.getString(2);
             user.setPassword(password);
-            System.out.println(user);
-
-        } catch (SQLException e) {
-            System.out.println("Could not connect to DB");
-            e.printStackTrace();
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
         }
+        System.out.println(user);
+
         return user;
     }
 

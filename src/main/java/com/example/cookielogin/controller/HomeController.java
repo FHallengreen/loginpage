@@ -17,6 +17,8 @@ public class HomeController {
     @Autowired
     UserRepository userRepository;
 
+    //TODO NAV-bar hvis logget ind skal man se welcome, sales og profile samt logud.
+    // Hvis ikke logget ind skal man kun se welcome.
 
     @GetMapping("/")
     public String pageOne() {
@@ -39,42 +41,34 @@ public class HomeController {
         } else return "redirect:/error";
     }
 
-    public boolean validateUser(HttpSession httpSession) {
+    public String validateUser(HttpSession httpSession) {
         User user2 = userRepository.findUserByEmail((String) httpSession.getAttribute("username"));
-        System.out.println(user2.getEmail() + " vs " + httpSession.getAttribute("username"));
-        System.out.println(user2.getPassword() + " vs " + httpSession.getAttribute("password"));
-        if (user2.getEmail().equals(httpSession.getAttribute("username")) && user2.getPassword().equals(httpSession.getAttribute("password"))) {
-            return false;
+        if (httpSession.getAttribute("username") == null) {
+            return "redirect:/notloggedin";
+        } else if (user2.getEmail().equals(httpSession.getAttribute("username")) && user2.getPassword().equals(httpSession.getAttribute("password"))) {
+            return "redirect:/error";
         }
-        return true;
+        return "validated";
     }
 
     @GetMapping("/welcome")
     public String welcomeUser(HttpSession httpSession, Model model) {
-
-        if (httpSession == null) {
-            return "redirect:/notloggedin";
-        } else if (validateUser(httpSession)) {
-            return "redirect:/error";
+        if (!validateUser(httpSession).equals("validated")) {
+            return validateUser(httpSession);
         } else {
-
             model.addAttribute("user", userRepository.findUserByEmail((String) httpSession.getAttribute("username")).getEmail());
             httpSession.getAttribute("username");
-
             return "/welcome";
         }
     }
 
     @GetMapping("/page-two")
     public String pageTwo(HttpSession httpSession) {
-        if (httpSession == null) {
-            return "redirect:/notloggedin";
-        } else if (validateUser(httpSession)) {
-            return "redirect:/error";
-        } else {
+         /*else {
             httpSession.getAttribute("username");
             return "page-two";
-        }
+        }*/
+        return "page-two";
     }
 
     @GetMapping("/cookieinvalidate")
