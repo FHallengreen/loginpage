@@ -5,6 +5,8 @@
     <title>Welcome user</title>
 </head>
 <body>
+<div th:if="${session.username!=null}" th:insert="fragments/headerloggedin"></div>
+<div th:if="${session.username==null}" th:insert="fragments/headernologin"></div>
 <p>Du sørme smart!</p>
 <span th:text="${session.username}"></span>
 <form action="/cookieinvalidate">

@@ -37,7 +37,6 @@ public class HomeController {
 
     public String validateUser(HttpSession httpSession) {
         User user2 = userRepository.findUserByEmail((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
-        System.out.println();
         if (httpSession.getAttribute("username") == null) {
             return "redirect:/notloggedin";
         } else if (user2.getEmail().equals(httpSession.getAttribute("username")) && user2.getPassword().equals(httpSession.getAttribute("password"))) {

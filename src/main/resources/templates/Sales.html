@@ -2,12 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Invalid login</title>
+    <title>Sales</title>
 </head>
 <body>
 <div th:if="${session.username!=null}" th:insert="fragments/headerloggedin"></div>
 <div th:if="${session.username==null}" th:insert="fragments/headernologin"></div>
-<p>Invalid login. Please return to frontpage</p>
-<a th:href="@{'/'}"><button>Click here to return</button></a>
+<h1>Display sales here</h1>
 </body>
 </html>
