@@ -64,6 +64,14 @@ public class HomeController {
         return "page-two";
     }
 
+    @GetMapping("/sales")
+    public String salesPage(HttpSession httpSession) {
+        if (!validateUser(httpSession).equals("validated")) {
+            return validateUser(httpSession);
+        }
+        return "sales";
+    }
+
     @GetMapping("/cookieinvalidate")
     public String invalidateCookie(HttpSession session) {
         System.out.println(session.getAttribute("username"));
