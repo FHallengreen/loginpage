@@ -28,35 +28,36 @@ public class HomeController {
 
     @PostMapping("/login")
     public String loginUser(@RequestParam("email") String email, @RequestParam("password") String password, Model model, HttpSession httpSession) {
-        User user = new User(email, password);
-        User user2 = userRepository.findUserByEmail(email);
-
-        if (user.getEmail().equals(user2.getEmail()) && user.getPassword().equals(user2.getPassword())) {
-            httpSession.setAttribute("username", email);
-            httpSession.setAttribute("password", password);
-            System.out.println(httpSession.getAttribute("username"));
-            System.out.println(httpSession.getAttribute("password"));
-            model.addAttribute("user", email);
-            return "redirect:/welcome";
-        } else return "redirect:/error";
+        User user = userRepository.findUserByEmail(email, password);
+        System.out.println(user);
+        if (user == null) {
+//        System.out.println(user);
+            return "redirect:/error";
+        }
+        httpSession.setAttribute("username", email);
+        httpSession.setAttribute("password", password);
+        model.addAttribute("user", email);
+        return "redirect:/welcome";
     }
 
     public String validateUser(HttpSession httpSession) {
-        User user2 = userRepository.findUserByEmail((String) httpSession.getAttribute("username"));
+        User user2 = userRepository.findUserByEmail((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("password"));
+        System.out.println();
         if (httpSession.getAttribute("username") == null) {
             return "redirect:/notloggedin";
         } else if (user2.getEmail().equals(httpSession.getAttribute("username")) && user2.getPassword().equals(httpSession.getAttribute("password"))) {
-            return "redirect:/error";
+            return "validated";
         }
-        return "validated";
+        return "redirect:/error";
     }
 
     @GetMapping("/welcome")
     public String welcomeUser(HttpSession httpSession, Model model) {
+        int x = 4;
         if (!validateUser(httpSession).equals("validated")) {
             return validateUser(httpSession);
         } else {
-            model.addAttribute("user", userRepository.findUserByEmail((String) httpSession.getAttribute("username")).getEmail());
+            model.addAttribute("user", userRepository.findUserByEmail((String) httpSession.getAttribute("username"), (String) httpSession.getAttribute("username")));
             httpSession.getAttribute("username");
             return "/welcome";
         }
