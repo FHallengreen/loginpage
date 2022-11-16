@@ -2,14 +2,11 @@ package com.example.cookielogin.controller;
 
 import com.example.cookielogin.model.User;
 import com.example.cookielogin.repository.UserRepository;
-import com.example.cookielogin.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -22,7 +19,6 @@ public class HomeController {
 
     @GetMapping("/")
     public String pageOne() {
-//        httpSession.setAttribute("user", "fred1234");
         return "index";
     }
 
@@ -31,7 +27,6 @@ public class HomeController {
         User user = userRepository.findUserByEmail(email, password);
         System.out.println(user);
         if (user == null) {
-//        System.out.println(user);
             return "redirect:/error";
         }
         httpSession.setAttribute("username", email);
@@ -53,7 +48,6 @@ public class HomeController {
 
     @GetMapping("/welcome")
     public String welcomeUser(HttpSession httpSession, Model model) {
-        int x = 4;
         if (!validateUser(httpSession).equals("validated")) {
             return validateUser(httpSession);
         } else {
@@ -65,10 +59,9 @@ public class HomeController {
 
     @GetMapping("/page-two")
     public String pageTwo(HttpSession httpSession) {
-         /*else {
-            httpSession.getAttribute("username");
-            return "page-two";
-        }*/
+        if (!validateUser(httpSession).equals("validated")) {
+            return validateUser(httpSession);
+        }
         return "page-two";
     }
 
