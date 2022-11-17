@@ -18,8 +18,12 @@ public class HomeController {
     // Hvis ikke logget ind skal man kun se welcome.
 
     @GetMapping("/")
-    public String pageOne() {
-        return "index";
+    public String pageOne(HttpSession httpSession) {
+        if (!validateUser(httpSession).equals("validated")) {
+            return "index";
+        } else {
+            return "welcome";
+        }
     }
 
     @PostMapping("/login")
@@ -36,15 +40,17 @@ public class HomeController {
     }
 
     @GetMapping("/createuser")
-    public String create(){
-        return "createuser";
+    public String create(HttpSession httpSession) {
+        if (!validateUser(httpSession).equals("validated")) {
+            return "createuser";
+        } else {
+            return "welcome";
+        }
     }
 
     @PostMapping("/createuser")
-    public String createUser(@RequestParam("email") String email, @RequestParam("password") String password, @RequestParam("name") String name, HttpSession httpSession){
-
-
-        if (userRepository.createnewUser(email,password,name) == null){
+    public String createUser(@RequestParam("email") String email, @RequestParam("password") String password, @RequestParam("name") String name, HttpSession httpSession) {
+        if (userRepository.createnewUser(email, password, name) == null) {
             return "redirect:/error";
         }
         httpSession.setAttribute("username", email);
