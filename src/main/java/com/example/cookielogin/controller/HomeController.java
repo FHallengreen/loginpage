@@ -23,7 +23,7 @@ public class HomeController {
     }
 
     @PostMapping("/login")
-    public String loginUser(@RequestParam("email") String email, @RequestParam("password") String password, Model model, HttpSession httpSession) {
+    public String loginUser(@RequestParam("email") String email, @RequestParam("password") String password, HttpSession httpSession) {
         User user = userRepository.findUserByEmail(email, password);
         System.out.println(user);
         if (user == null) {
@@ -31,7 +31,26 @@ public class HomeController {
         }
         httpSession.setAttribute("username", email);
         httpSession.setAttribute("password", password);
-        model.addAttribute("user", email);
+        httpSession.setAttribute("name", user.getName());
+        return "redirect:/welcome";
+    }
+
+    @GetMapping("/createuser")
+    public String create(){
+        return "createuser";
+    }
+
+    @PostMapping("/createuser")
+    public String createUser(@RequestParam("email") String email, @RequestParam("password") String password, @RequestParam("name") String name, HttpSession httpSession){
+
+
+        if (userRepository.createnewUser(email,password,name) == null){
+            return "redirect:/error";
+        }
+        httpSession.setAttribute("username", email);
+        httpSession.setAttribute("password", password);
+        httpSession.setAttribute("name", name);
+
         return "redirect:/welcome";
     }
 

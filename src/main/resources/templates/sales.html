@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Sales</title>
 </head>
 <body>
+
 <div th:if="${session.username!=null}" th:insert="fragments/headerloggedin"></div>
 <div th:if="${session.username==null}" th:insert="fragments/headernologin"></div>
-<h1>Display sales here</h1>
+<h1>Display sales here for user: </h1><h1 th:text="${session.name}"></h1>
 </body>
 </html>

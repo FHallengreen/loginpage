@@ -8,7 +8,7 @@
 <div th:if="${session.username!=null}" th:insert="fragments/headerloggedin"></div>
 <div th:if="${session.username==null}" th:insert="fragments/headernologin"></div>
 <p>Du sørme smart!</p>
-<span th:text="${session.username}"></span>
+<span th:text="${session.name}"></span>
 <form action="/cookieinvalidate">
     <button type="submit" >Logout</button>
 </form>

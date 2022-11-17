@@ -8,6 +8,9 @@
 <div th:if="${session.username!=null}" th:insert="fragments/headerloggedin"></div>
     <div th:if="${session.username==null}" th:insert="fragments/headernologin"></div>
 
+
+<h1>Login</h1>
+<br>
 <form method="post" th:action="@{'/login'}">
     <input type="hidden" name="id">
     <label for="email">Email: </label>

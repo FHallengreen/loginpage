@@ -8,7 +8,7 @@
 <body>
 <div th:if="${session.username!=null}" th:insert="fragments/headerloggedin"></div>
 <div th:if="${session.username==null}" th:insert="fragments/headernologin"></div>
-<h1>Welcome </h1><h1 th:text="${session.username}"></h1>
+<h1>Welcome </h1><h1 th:text="${session.name}"></h1>
 <a th:href="@{page-two}"><button>Gå til næste side</button></a>
 </body>
 </html>
